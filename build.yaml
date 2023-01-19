@@ -1,0 +1,16 @@
+builders:
+  buildPartToSourceBuilder:
+    import: "package:build_to_source_repro/src/builder.dart"
+    builder_factories: ["buildPartToSourceBuilder"]
+    build_extensions: {".dart" : [".g.dart"]}
+    auto_apply: none
+    build_to: cache
+
+targets:
+  $default:
+    builders:
+      build_to_source_repro|buildPartToSourceBuilder:
+        enabled: true
+        generate_for:
+          include:
+            - "example/**"

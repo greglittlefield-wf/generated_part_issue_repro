@@ -38,16 +38,14 @@ jobs:
       - id: build
         name: Build generated files
         run: dart run build_runner build
-        if: steps.install.outcome == 'success'
 
       - name: Analyze project source (post-build)
         run: dart analyze .
-        if: steps.build.outcome == 'success'
 
-      - name: Execute entrypoint relying on generated part that uses library name in `part of`
+      - name: Execute entrypoint - generated part uses library name in `part of`
         run: dart run build_runner run example/with_generated_part/library_part_of.dart
-        if: steps.build.outcome == 'success'
+        if: always()
 
-      - name: Execute entrypoint relying on generated part that uses URI in `part of`
+      - name: Execute entrypoint - generated part uses URI in `part of`
         run: dart run build_runner run example/with_generated_part/path_part_of.dart
-        if: steps.build.outcome == 'success'
+        if: always()

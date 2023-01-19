@@ -1,0 +1,53 @@
+name: Dart CI
+
+on:
+  push:
+    branches:
+      - 'master'
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sdk:
+          - 2.15.1 # Last version with no errors
+          - 2.16.0 # First version with uri_has_not_been_generated errors
+          - 2.17.7 # Last version with uri_has_not_been_generated errors
+          - 2.18.0 # First version with part_of_different_library error
+          - stable
+          - beta
+          - dev
+    steps:
+      - uses: actions/checkout@v2
+      - uses: dart-lang/setup-dart@v0.2
+        with:
+          sdk: ${{ matrix.sdk }}
+
+      - name: Print Dart SDK version
+        run: dart --version
+
+      - id: install
+        name: Install dependencies
+        run: dart pub get
+
+      - id: build
+        name: Build generated files
+        run: dart run build_runner build
+        if: steps.install.outcome == 'success'
+
+      - name: Analyze project source (post-build)
+        run: dart analyze .
+        if: steps.build.outcome == 'success'
+
+      - name: Execute entrypoint relying on generated part that uses library name in `part of`
+        run: dart run build_runner run example/with_generated_part/library_part_of.dart
+        if: steps.build.outcome == 'success'
+
+      - name: Execute entrypoint relying on generated part that uses URI in `part of`
+        run: dart run build_runner run example/with_generated_part/path_part_of.dart
+        if: steps.build.outcome == 'success'

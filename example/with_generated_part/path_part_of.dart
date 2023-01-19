@@ -5,7 +5,7 @@
 //
 //   Expected this library to be part of
 //   'file:///<path_to_package>/example/with_generated_part.dart', not
-//   'file:///<path_to_package>/.dart_tool/build/generated/build_to_source_repro/example/with_generated_part.g.dart'.
+//   'file:///<path_to_package>/.dart_tool/build/generated/generated_part_issue_repro/example/with_generated_part.g.dart'.
 //   Try including a different part, or changing the name of the library in the part's part-of directive.
 part 'path_part_of.g.dart';
 

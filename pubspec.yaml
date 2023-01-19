@@ -1,4 +1,4 @@
-name: build_to_source_repro
+name: generated_part_issue_repro
 description: A sample command-line application.
 version: 1.0.0
 

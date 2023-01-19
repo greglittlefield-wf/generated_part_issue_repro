@@ -11,10 +11,21 @@ class BuildPartToSourceBuilder extends Builder {
 
   @override
   Future<void> build(BuildStep buildStep) async {
-    final inputFilename = buildStep.inputId.pathSegments.last;
+    String partOfDirective;
+
+    final libraryName = (await buildStep.inputLibrary).library.name;
+    if (libraryName.isNotEmpty) {
+      // Use library name for part-of.
+      partOfDirective = 'part of $libraryName;';
+    } else {
+      // Use path for part-of if there's no library name.
+      final inputFilename = buildStep.inputId.pathSegments.last;
+      partOfDirective = "part of '$inputFilename';";
+    }
+
     await buildStep
         .writeAsString(buildStep.inputId.changeExtension('.g.dart'), '''
-part of '$inputFilename';
+$partOfDirective
 
 var _\$generatedMember = 'I was generated!';
 ''');

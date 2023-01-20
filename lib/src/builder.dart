@@ -1,9 +1,11 @@
 import 'package:build/build.dart';
 
-Builder buildPartToSourceBuilder(BuilderOptions options) =>
-    BuildPartToSourceBuilder();
+Builder partBuilder(BuilderOptions options) => PartBuilder();
 
-class BuildPartToSourceBuilder extends Builder {
+/// A simple builder that generates a part file for a library.
+///
+/// It uses the library name in its `part of` if it exists, or a URI otherwise.
+class PartBuilder extends Builder {
   @override
   final buildExtensions = const {
     '.dart': ['.g.dart'],

@@ -1,7 +1,7 @@
 builders:
-  buildPartToSourceBuilder:
+  partBuilder:
     import: "package:generated_part_issue_repro/src/builder.dart"
-    builder_factories: ["buildPartToSourceBuilder"]
+    builder_factories: ["partBuilder"]
     build_extensions: {".dart" : [".g.dart"]}
     auto_apply: none
     build_to: cache
@@ -9,7 +9,7 @@ builders:
 targets:
   $default:
     builders:
-      generated_part_issue_repro|buildPartToSourceBuilder:
+      generated_part_issue_repro|partBuilder:
         enabled: true
         generate_for:
           include:

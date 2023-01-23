@@ -13,4 +13,5 @@ targets:
         enabled: true
         generate_for:
           include:
-            - "example/**"
+            - "example/with_generated_part/**"
+            - "lib/src/with_generated_part/**"

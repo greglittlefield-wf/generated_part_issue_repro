@@ -36,11 +36,16 @@ jobs:
         run: dart pub get
 
       - id: build
-        name: Build generated files
-        run: dart run build_runner build
+        name: Build generated Dart files
+        run: dart run build_runner build --build-filter='**.dart'
 
       - name: Analyze project source (post-build)
         run: dart analyze .
+
+      - id: js-compile
+        name: Compile to DDC and dart2js
+        run: dart run build_runner build && dart run build_runner build --release
+        if: always()
 
       - name: Execute entrypoint - generated part uses library name in `part of`
         run: dart run build_runner run example/with_generated_part/library_part_of.dart
